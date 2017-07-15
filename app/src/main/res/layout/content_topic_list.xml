@@ -7,12 +7,18 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_topic_list"
-    tools:context="com.android.vote.votesystem.TopicList">
+    tools:context="com.android.vote.votesystem.TopTopicListActivity">
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/empty_list" />
 
 </android.support.constraint.ConstraintLayout>

@@ -11,19 +11,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-public class TopicList extends AppCompatActivity {
+public class TopicListActivity extends AppCompatActivity {
 
     private String TAG = "Vote";
-    private static TopicUtis mTopicUtis = new TopicUtis();
     private ListView mListView = null;
     private TopicAdapter mAdapter = null;
 
@@ -34,15 +30,16 @@ public class TopicList extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TopicList.this, PostTopicActivity.class);
+                Intent intent = new Intent(TopicListActivity.this, PostTopicActivity.class);
                 startActivity(intent);
             }
         });
         mListView = (ListView) findViewById(R.id.list);
+        mListView.setEmptyView(findViewById(android.R.id.empty));
     }
 
     @Override
@@ -53,7 +50,7 @@ public class TopicList extends AppCompatActivity {
 
     private void setContactsAdapter(){
 
-        mAdapter = new TopicAdapter(mTopicUtis.getTopicList());
+        mAdapter = new TopicAdapter(TopTopicListActivity.getTopicUtis().getTopicList());
         mListView.setAdapter(mAdapter);
         mListView.setClickable(false);
     }
@@ -104,14 +101,16 @@ public class TopicList extends AppCompatActivity {
             holder.up.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TopicList.getTopicUtis().up(position);
+                    TopTopicListActivity.getTopicUtis().up(position);
+                    notifyDataSetChanged();
                 }
             });
             holder.upNum.setText(Integer.toString(list.get(position).upvote));
             holder.down.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TopicList.getTopicUtis().down(position);
+                    TopTopicListActivity.getTopicUtis().down(position);
+                    notifyDataSetChanged();
                 }
             });
             holder.downNum.setText(Integer.toString(list.get(position).downvote));
@@ -142,16 +141,19 @@ public class TopicList extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_post) {
-            Intent intent = new Intent(TopicList.this, PostTopicActivity.class);
-            startActivity(intent);
-            return true;
+
+        switch (id){
+            case R.id.action_top_topic:
+                finish();
+                return true;
+            case R.id.action_post:
+                Intent intent = new Intent(TopicListActivity.this, PostTopicActivity.class);
+                startActivity(intent);
+                return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    public static TopicUtis getTopicUtis() {
-        return mTopicUtis;
-    }
 }

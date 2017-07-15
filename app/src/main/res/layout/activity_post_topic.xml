@@ -10,17 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.vote.votesystem.PostTopicActivity">
 
-
     <EditText
         android:id="@+id/topic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/post_hint"
         android:inputType="textMultiLine"
+        android:maxLength="255"
         android:lines="8" />
 
     <TextView
         android:id="@+id/msg"
-        android:text="255 chars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/topic"
@@ -28,15 +28,14 @@
 
 
     <Button
-    android:id="@+id/post"
-    android:text="POST"
-    android:layout_width="100dp"
-    android:layout_height="50dp"
-    android:layout_marginRight="54dp"
-    android:layout_marginEnd="54dp"
-    android:layout_marginBottom="21dp"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true" />
+        android:id="@+id/post"
+        android:text="POST"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/msg"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="48dp" />
 
 </RelativeLayout>

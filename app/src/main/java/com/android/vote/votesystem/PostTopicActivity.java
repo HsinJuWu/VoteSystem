@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ public class PostTopicActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.post);
 
         textView.setText(limit+" chars");
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -48,7 +48,7 @@ public class PostTopicActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TopicList.getTopicUtis().addTopic(editText.getText().toString());
+                TopTopicListActivity.getTopicUtis().addTopic(editText.getText().toString());
                 finish();
             }
         });
