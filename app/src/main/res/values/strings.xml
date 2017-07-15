@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VoteSystem</string>
+    <string name="action_post">Post</string>
+    <string name="action_refresh">Refresh</string>
+</resources>
