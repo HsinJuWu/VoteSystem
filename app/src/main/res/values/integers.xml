@@ -1,0 +1,5 @@
+<resources>
+    <integer name="int_top_topic_count">20</integer>
+    <integer name="int_topic_limit">255</integer>
+    <integer name="int_post_topic_lines">10</integer>
+</resources>

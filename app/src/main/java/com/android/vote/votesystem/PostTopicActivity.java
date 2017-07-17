@@ -5,50 +5,49 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class PostTopicActivity extends AppCompatActivity {
 
-    private EditText editText = null;
-    private TextView textView = null;
-    private Button button = null;
-    private int limit = 255;
+    private EditText mTopicEditText = null;
+    private TextView mShowLimitTextView = null;
+    private Button mPostButton = null;
+    private int limit = TopicUtis.LIMIT_TOPIC_CHARACTERS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_topic);
 
-        editText = (EditText) findViewById(R.id.topic);
-        textView = (TextView) findViewById(R.id.msg);
-        button = (Button) findViewById(R.id.post);
+        mTopicEditText = (EditText) findViewById(R.id.topic);
+        mShowLimitTextView = (TextView) findViewById(R.id.msg);
+        mPostButton = (Button) findViewById(R.id.post);
 
-        textView.setText(limit+" chars");
-        editText.addTextChangedListener(new TextWatcher() {
+        mShowLimitTextView.setText(limit + getString(R.string.msg_limit_chars));
+        mTopicEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-                int rest = limit -editText.getText().length();
-                textView.setText(rest + " chars");
-
+                int rest = limit - mTopicEditText.getText().length();
+                if(rest < 2 ){
+                    mShowLimitTextView.setText(rest + getString(R.string.msg_limit_char));
+                } else{
+                    mShowLimitTextView.setText(rest + getString(R.string.msg_limit_chars));
+                }
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        mPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TopTopicListActivity.getTopicUtis().addTopic(editText.getText().toString());
+                TopTopicListActivity.getTopicUtis().addTopic(mTopicEditText.getText().toString());
                 finish();
             }
         });

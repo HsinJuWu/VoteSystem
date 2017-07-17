@@ -2,70 +2,46 @@ package com.android.vote.votesystem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-public class TopTopicListActivity extends AppCompatActivity {
+public class TopTopicListActivity extends TopicListActivity {
 
-    private String TAG = "Vote";
-    private static TopicUtis mTopicUtis = new TopicUtis();
-    private ListView mListView = null;
-    private TopicAdapter mAdapter = null;
+    private static TopicUtis mTopicUtis = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topic_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mTopicUtis = new TopicUtis(getApplicationContext());
+        setTitle(R.string.title_top_topic_list);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TopTopicListActivity.this, PostTopicActivity.class);
-                startActivity(intent);
-            }
-        });
-        mListView = (ListView) findViewById(R.id.list);
-        mListView.setEmptyView(findViewById(android.R.id.empty));
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setContactsAdapter();
-    }
-
-    private void setContactsAdapter(){
-
-        mAdapter = new TopicAdapter(mTopicUtis.getTopicList());
+    protected void setContactsAdapter() {
+        mAdapter = new TopTopicAdapter(getTopicUtis().getTopicList());
         mListView.setAdapter(mAdapter);
-        mListView.setClickable(false);
     }
-    private class TopicAdapter extends BaseAdapter {
+
+    private class TopTopicAdapter extends TopicListActivity.TopicAdapter {
         private ArrayList<TopicUtis.Topic> list;
 
-
-        public TopicAdapter(ArrayList<TopicUtis.Topic> data) {
+        public TopTopicAdapter(ArrayList<TopicUtis.Topic> data) {
+            super(data);
             list = data;
         }
+
         @Override
         public int getCount() {
-            if(list.size() > 20 ) {
-                return 20;
+            //This view only show top topic , set the MAX count is TOP_TOPIC_COUNT
+            if(list.size() > TopicUtis.TOP_TOPIC_COUNT ) {
+                return TopicUtis.TOP_TOPIC_COUNT;
             }
             else {
                 return list.size();
@@ -73,17 +49,8 @@ public class TopTopicListActivity extends AppCompatActivity {
         }
 
         @Override
-        public Object getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+
             View v = convertView;
             Holder holder;
             if(v == null){
@@ -93,37 +60,19 @@ public class TopTopicListActivity extends AppCompatActivity {
                 holder.topNum.setVisibility(View.VISIBLE);
                 holder.text = (TextView) v.findViewById(R.id.content);
                 holder.up = (Button) v.findViewById(R.id.up);
+                holder.up.setOnClickListener(mVoteOnClickListener);
                 holder.upNum = (TextView) v.findViewById(R.id.upNum);
                 holder.down = (Button) v.findViewById(R.id.down);
+                holder.down.setOnClickListener(mVoteOnClickListener);
                 holder.downNum = (TextView) v.findViewById(R.id.downNum);
-
                 v.setTag(holder);
             } else{
                 holder = (Holder) v.getTag();
             }
-            Log.d(TAG,"position = " + position);
-            Log.d(TAG,"content = " + list.get(position).content);
-            Log.d(TAG,"upvote = " + list.get(position).upvote);
-            Log.d(TAG,"downvote = " + list.get(position).downvote);
-            holder.topNum.setText("Top " + (position+1));
+            holder.topNum.setText(getString(R.string.msg_top_number) + (position+1));
             holder.text.setText(list.get(position).content);
-            holder.up.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TopTopicListActivity.getTopicUtis().up(position);
-                    notifyDataSetChanged();
-                }
-            });
             holder.upNum.setText(Integer.toString(list.get(position).upvote));
-            holder.down.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TopTopicListActivity.getTopicUtis().down(position);
-                    notifyDataSetChanged();
-                }
-            });
             holder.downNum.setText(Integer.toString(list.get(position).downvote));
-
 
             return v;
         }
@@ -136,6 +85,7 @@ public class TopTopicListActivity extends AppCompatActivity {
             TextView downNum;
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -149,19 +99,17 @@ public class TopTopicListActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_post) {
-            Intent intent = new Intent(TopTopicListActivity.this, PostTopicActivity.class);
-            startActivity(intent);
-            return true;
+        Intent intent =null;
+        switch (id){
+            case R.id.action_all_post:
+                intent = new Intent(this.getApplicationContext(), TopicListActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_post:
+                intent = new Intent(this.getApplicationContext(), PostTopicActivity.class);
+                startActivity(intent);
+                return true;
         }
-        if(id == R.id.action_all_post){
-            Intent intent = new Intent(TopTopicListActivity.this, TopicListActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

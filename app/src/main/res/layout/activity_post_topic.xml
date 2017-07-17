@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/post_hint"
         android:inputType="textMultiLine"
-        android:maxLength="255"
-        android:lines="8" />
+        android:maxLength="@integer/int_topic_limit"
+        android:lines="@integer/int_post_topic_lines" />
 
     <TextView
         android:id="@+id/msg"
@@ -29,13 +29,12 @@
 
     <Button
         android:id="@+id/post"
-        android:text="POST"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="54dp"
-        android:layout_marginTop="29dp"
+        android:text="@string/button_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/post_button_marginRight"
+        android:layout_marginTop="@dimen/post_button_marginTop"
         android:layout_below="@+id/msg"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="48dp" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

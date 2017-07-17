@@ -1,11 +1,29 @@
 <resources>
     <string name="app_name">VoteSystem</string>
+    <!--Activity Title-->
     <string name="title_top_topic_list">Top 20 Topic</string>
     <string name="title_topic_list">All Topic</string>
     <string name="title_post_topic">Post</string>
+    <!--Activity Title end-->
+    <!--Menu Item-->
     <string name="action_top_topic">Top 20</string>
-    <string name="action_post">Post</string>
     <string name="action_all_post">All post</string>
+    <string name="action_post">Post</string>
+    <!--Menu Item end-->
+    <!--show the Top number in Top Topic activity-->
+    <string name="msg_top_number">Top </string>
+    <!--end-->
+    <!--show the limit chars in Post Topic activity-->
+    <string name="msg_limit_chars"> chars</string>
+    <string name="msg_limit_char"> char</string>
+    <!--end-->
     <string name="empty_list">Empty</string>
     <string name="post_hint">"Input Topic..."</string>
+
+    <!--Button text-->
+    <string name="button_post">POST</string>
+    <string name="button_upvote">UP</string>
+    <string name="button_downvote">DOWN</string>
+    <!--end-->
+
 </resources>
