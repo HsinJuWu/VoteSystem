@@ -18,8 +18,10 @@ public class TopicUtis {
 
     public TopicUtis(Context context){
         mContext = context;
-        TOP_TOPIC_COUNT = mContext.getResources().getInteger(R.integer.int_top_topic_count);
-        LIMIT_TOPIC_CHARACTERS = mContext.getResources().getInteger(R.integer.int_topic_limit);
+        if(mContext != null) {
+            TOP_TOPIC_COUNT = mContext.getResources().getInteger(R.integer.int_top_topic_count);
+            LIMIT_TOPIC_CHARACTERS = mContext.getResources().getInteger(R.integer.int_topic_limit);
+        }
     }
 
     public static class Topic{
